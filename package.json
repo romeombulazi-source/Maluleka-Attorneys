@@ -1,0 +1,15 @@
+{
+  "name": "bmaluleka-attorneys-web",
+  "version": "1.0.0",
+  "description": "B Maluleka Attorneys Website & Automation Test Suite",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0"
+  }
+}

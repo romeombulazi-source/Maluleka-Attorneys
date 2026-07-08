@@ -34,12 +34,22 @@
 
 <section style="background-image: url('images/IMG_9109.jpg');">
   <h2>Contact Us</h2>
-  <p>Email: admin@bmalulekattorneys.co.za</p>
+  <p>Email: admin@bmalulekaattorneys.co.za</p>
   <p>Phone: 084 849 5714</p>
   <p>Address: 391 Anton Lembede Street, Durban, South Africa</p>
-
-  <!-- Contact Form using Formspree -->
-  <form action="https://formspree.io/f/xqarynne" method="POST">
+<div class="map-container">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3460.1343750409903!2d31.018078376326127!3d-29.860532275276332!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ef7a9f7f560885f%3A0x4333a52598c8dcfe!2s391%20Anton%20Lembede%20St%2C%20Durban%20Central%2C%20Durban%2C%204001!5e0!3m2!1sen!2sza!4v1719876543210!5m2!1sen!2sza" 
+      width="100%" 
+      height="300" 
+      style="border:0;" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+  <!-- Contact Form -->
+  <form id="contactForm">
     <label for="name">Full Name:</label>
     <input type="text" id="name" name="name" placeholder="Your Name" required>
 
@@ -49,13 +59,77 @@
     <label for="message">Message / Contact Details:</label>
     <textarea id="message" name="message" rows="4" placeholder="Your message..." required></textarea>
 
-    <button type="submit">Send Message</button>
+    <button type="submit" id="submitBtn">Send Message</button>
+    
+    <!-- Dynamic Feedback Message Container -->
+    <div id="formFeedback" class="form-feedback"></div>
   </form>
+  <!-- WhatsApp Floating Button (Dummy Placeholder) -->
+  <a href="#" class="whatsapp-btn" target="_blank" id="waButton">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon">
+    <span class="wa-text">Contact us on WhatsApp for faster replies</span>
+  </a>
 </section>
 
 <footer>
   © 2025 B Maluleka Attorneys Inc — All Rights Reserved
 </footer>
+<script>
+  const form = document.getElementById('contactForm');
+  const feedback = document.getElementById('formFeedback');
+  const submitBtn = document.getElementById('submitBtn');
 
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Stop the page from reloading
+
+    // Reset feedback UI
+    feedback.className = 'form-feedback'; 
+    feedback.style.display = 'block';
+    feedback.innerText = 'Sending...';
+    submitBtn.disabled = true; // Prevent double-clicking
+
+    // Gather form data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    // 1. Validation: Check for empty spaces (HTML 'required' catches most, but this is a backup)
+    if (!data.name.trim() || !data.email.trim() || !data.message.trim()) {
+      showFeedback('error', 'Please fill in all required fields.');
+      return;
+    }
+
+    // 2. Validation: Check for invalid characters (e.g., < or >)
+    const illegalChars = /[<>]/;
+    if (illegalChars.test(data.name) || illegalChars.test(data.message)) {
+      showFeedback('error', 'Invalid characters (< or >) detected. Please remove them.');
+      return;
+    }
+
+    // 3. Submit to your specific Make Webhook
+    try {
+      const response = await fetch('https://hook.us2.make.com/8mp52ifkjmqswgtmafqt2u4yccxdu7qr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        showFeedback('success', 'Message sent successfully! We will be in touch soon.');
+        form.reset(); // Clear the form fields
+      } else {
+        showFeedback('error', 'Something went wrong. Please try again or use the email provided.');
+      }
+    } catch (error) {
+      showFeedback('error', 'Network error. Please check your internet connection and try again.');
+    }
+  });
+
+  // Helper function to handle the UI styling
+  function showFeedback(type, message) {
+    feedback.innerText = message;
+    feedback.classList.add(type);
+    submitBtn.disabled = false; // Re-enable the button
+  }
+</script>
 </body>
 </html>
