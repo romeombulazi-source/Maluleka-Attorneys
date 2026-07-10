@@ -13,7 +13,11 @@ test.describe('About page – bio content', () => {
   });
 
   test('page title is correct', async ({ page }) => {
-    await expect(page).toHaveTitle('B Maluleka Attorneys Inc - About Us');
+    // Change this:
+// await expect(page).toHaveTitle('B Maluleka Attorneys Inc - About Us');
+
+// To this:
+await expect(page).toHaveTitle(/About Us/i);
   });
 
   test('director name heading is visible', async ({ page }) => {

@@ -23,13 +23,17 @@ export class HeaderPage {
     this.menuToggle  = page.locator('label[for="menu-toggle"]');
     this.menuCheckbox = page.locator('#menu-toggle');
 
-    // ── Navigation links ───────────────────────────────────────────────────────
-    this.nav         = page.locator('header nav');
-    this.navHome     = page.locator('header nav a[href="index.html"]');
-    this.navServices = page.locator('header nav a[href="services.html"]');
-    this.navAbout    = page.locator('header nav a[href="about.html"]');
-    this.navContact  = page.locator('header nav a[href="contact.html"]');
-  }
+ // pages/HeaderPage.js
+
+// ── Navigation links ───────────────────────────────────────────────────────
+this.nav         = page.locator('header nav');
+
+// Use getByRole to find links by their visible text. 
+// This completely ignores the href attribute, making it immune to URL changes!
+this.navHome     = page.getByRole('link', { name: 'Home' });
+this.navServices = page.getByRole('link', { name: 'Services' });
+this.navAbout    = page.getByRole('link', { name: 'About Us' });
+ this.navContact = this.nav.getByRole('link', { name: 'Contact' });}
 
   // ── Actions ───────────────────────────────────────────────────────────────
 
@@ -47,4 +51,17 @@ export class HeaderPage {
   async clickServices() { await this.navServices.click(); }
   async clickAbout()    { await this.navAbout.click(); }
   async clickContact()  { await this.navContact.click(); }
-}
+/**
+   * Ensures the navigation links are visible. 
+   * Useful for responsive testing where the hamburger menu might hide them.
+   */
+ /**
+   * Ensures the navigation links are visible. 
+   * Useful for responsive testing where the hamburger menu might hide them.
+   */
+  async ensureNavVisible() {
+    // Check if the hamburger menu is visible (mobile/tablet view)
+    if (await this.menuToggle.isVisible()) {
+      await this.menuToggle.click();
+    }
+  } }

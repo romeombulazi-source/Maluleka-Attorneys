@@ -15,33 +15,33 @@ test.describe('Navigation – desktop routing', () => {
     await home.goto(baseURL);
   });
 
-  test('clicking Services nav link routes to services.html', async ({ page }) => {
+  test('clicking Services nav link routes to services', async ({ page }) => {
     const header = new HeaderPage(page);
     await header.clickServices();
-    await expect(page).toHaveURL(/services\.html/);
+    await expect(page).toHaveURL(/.*\/services/);
     await expect(page).toHaveTitle('B Maluleka Attorneys Inc - Services');
   });
 
-  test('clicking About Us nav link routes to about.html', async ({ page }) => {
+  test('clicking About Us nav link routes to about', async ({ page }) => {
     const header = new HeaderPage(page);
     await header.clickAbout();
-    await expect(page).toHaveURL(/about\.html/);
+    await expect(page).toHaveURL(/.*\/about/);
     await expect(page).toHaveTitle('B Maluleka Attorneys Inc - About Us');
   });
 
-  test('clicking Contact nav link routes to contact.html', async ({ page }) => {
+  test('clicking Contact nav link routes to contact', async ({ page }) => {
     const header = new HeaderPage(page);
     await header.clickContact();
-    await expect(page).toHaveURL(/contact\.html/);
+    await expect(page).toHaveURL(/.*\/contact/);
     await expect(page).toHaveTitle('B Maluleka Attorneys Inc - Contact');
   });
 
-  test('clicking Home nav link from another page returns to index.html', async ({ page, baseURL }) => {
+  test('clicking Home nav link from another page returns to index', async ({ page, baseURL }) => {
     // Navigate away first
-    await page.goto(baseURL + '/services.html');
+    await page.goto(baseURL + '/services');
     const header = new HeaderPage(page);
     await header.clickHome();
-    await expect(page).toHaveURL(/index\.html/);
+    await expect(page).toHaveURL(/.*\/$/);
     await expect(page).toHaveTitle('B Maluleka Attorneys Inc - Home');
   });
 

@@ -40,6 +40,6 @@ export class AboutPage {
   // ── Navigation ────────────────────────────────────────────────────────────
 
   async goto(baseURL) {
-    await this.page.goto(baseURL + '/about.html');
+    await this.page.goto(baseURL + '/about');
   }
 }

@@ -51,7 +51,7 @@ export class ContactPage {
   // ── Navigation ────────────────────────────────────────────────────────────
 
   async goto(baseURL) {
-    await this.page.goto(baseURL + '/contact.html');
+    await this.page.goto(baseURL + '/contact');
   }
 
   // ── Form helpers ──────────────────────────────────────────────────────────
