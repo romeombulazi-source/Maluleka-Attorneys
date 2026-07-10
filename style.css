@@ -379,6 +379,20 @@ footer {
 @media (max-width: 768px) {
   form { padding: 25px; }
 }
+
+/* ------------------ MOBILE BACKGROUND FIX ------------------ */
+/* background-attachment: fixed is unreliable on mobile Safari/Chrome —
+   the browser recalculates background-size: cover against the full
+   document height (and re-triggers on every address-bar show/hide),
+   which produces the cropped/zoomed-in appearance on phones.
+   Switching to "scroll" below the same breakpoint used for the nav
+   keeps the cover/centered layout but removes the buggy recalculation. */
+@media (max-width: 900px) {
+  section,
+  .hero {
+    background-attachment: scroll;
+  }
+}
 /* Contact Page Map Container */
 .map-container {
   max-width: 600px;
